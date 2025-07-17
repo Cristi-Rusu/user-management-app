@@ -10,7 +10,7 @@ const columns: GridColDef<User>[] = [
     headerName: "Avatar",
     renderCell: (params) => {
       const { fullName } = params.row;
-      const initials = `${fullName.split(" ")[0][0]}${fullName.split(" ")[1][0]}`;
+      const initials = `${fullName.split(" ")[0][0]}${fullName.split(" ")[1]?.[0] ?? ""}`;
       return (
         <Box
           sx={{

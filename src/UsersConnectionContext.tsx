@@ -46,6 +46,7 @@ const UsersConnectionProvider = ({
   useEffect(() => {
     // mock some data until WebSocket connection issue is solved
     if (!isInitialized.current) {
+      isInitialized.current = true;
       setUsers(fakeUsers);
       console.log("Initialization: ", fakeUsers);
     }

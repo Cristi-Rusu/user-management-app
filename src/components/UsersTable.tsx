@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { useUsersConnection } from "../hooks/useUsersConnection";
 import type { User } from "../types/users";
@@ -34,7 +35,15 @@ const columns: GridColDef<User>[] = [
   { field: "fullName", headerName: "Full Name", flex: 1, minWidth: 200 },
   { field: "role", headerName: "Role", flex: 1, minWidth: 140 },
   { field: "department", headerName: "Department", flex: 1, minWidth: 140 },
-  { field: "createdAt", headerName: "Created", flex: 1, minWidth: 200 },
+  {
+    field: "createdAt",
+    headerName: "Created",
+    flex: 1,
+    minWidth: 200,
+    valueFormatter: (date: string | undefined) => {
+      return dayjs().to(date);
+    },
+  },
 ];
 
 function UsersTable() {

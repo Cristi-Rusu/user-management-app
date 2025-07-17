@@ -1,9 +1,24 @@
-import { createContext, type ReactNode } from "react";
+import {
+  createContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { USERS_SOCKET_URL } from "./constants";
+import type { User } from "./types/users";
+import { fakeUsers } from "./mocks/fakeUsers";
 
-const UsersConnectionContext = createContext({
+type UsersConnectionContextType = {
+  readyState: ReadyState;
+  users: User[];
+};
+
+const UsersConnectionContext = createContext<UsersConnectionContextType>({
   readyState: ReadyState.UNINSTANTIATED,
+  users: [],
 });
 
 type UsersConnectionProviderProps = {
@@ -13,7 +28,9 @@ type UsersConnectionProviderProps = {
 const UsersConnectionProvider = ({
   children,
 }: UsersConnectionProviderProps) => {
-  const { readyState } = useWebSocket(USERS_SOCKET_URL, {
+  const [users, setUsers] = useState<User[]>([]);
+
+  const { readyState, lastMessage } = useWebSocket(USERS_SOCKET_URL, {
     retryOnError: true,
     shouldReconnect: () => true,
     reconnectAttempts: 10,
@@ -24,8 +41,28 @@ const UsersConnectionProvider = ({
       Math.min(Math.pow(2, attemptNumber) * 1000, 10000),
   });
 
+  // isInitialized is only used to mock users until connection issue is solved
+  const isInitialized = useRef(false);
+  useEffect(() => {
+    // mock some data until WebSocket connection issue is solved
+    if (!isInitialized.current) {
+      setUsers(fakeUsers);
+      console.log("Initialization: ", fakeUsers);
+    }
+    // TODO: implement functionality after connection issue is solved
+    // if (lastMessage !== null) {
+    // }
+  }, [lastMessage]);
+
+  const contextValue = useMemo<UsersConnectionContextType>(
+    () => ({
+      readyState,
+      users,
+    }),
+    [readyState, users],
+  );
   return (
-    <UsersConnectionContext value={{ readyState }}>
+    <UsersConnectionContext value={contextValue}>
       {children}
     </UsersConnectionContext>
   );

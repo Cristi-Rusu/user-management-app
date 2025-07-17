@@ -7,14 +7,19 @@ import {
   Grid,
 } from "@mui/material";
 import { ConnectionStatus } from "./components/ConnectionStatus";
+import { UsersTable } from "./components/UsersTable";
 
 function App() {
   return (
-    <Box flex={1}>
+    <Box display="flex" flexDirection="column" flex={1} minHeight={0}>
       <AppBar position="sticky">
         <Toolbar disableGutters>
           <Container>
-            <Grid container justifyContent="space-between" alignItems="center">
+            <Grid
+              container
+              justifyContent="space-between"
+              alignItems="baseline"
+            >
               <Typography variant="h6" component="div">
                 User Management App
               </Typography>
@@ -23,7 +28,11 @@ function App() {
           </Container>
         </Toolbar>
       </AppBar>
-      <Container></Container>
+      <Container
+        sx={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}
+      >
+        <UsersTable />
+      </Container>
     </Box>
   );
 }

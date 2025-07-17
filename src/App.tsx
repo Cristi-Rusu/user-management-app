@@ -1,4 +1,12 @@
-import { Box, AppBar, Toolbar, Typography, Container } from "@mui/material";
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  Grid,
+} from "@mui/material";
+import { ConnectionStatus } from "./components/ConnectionStatus";
 
 function App() {
   return (
@@ -6,9 +14,12 @@ function App() {
       <AppBar position="sticky">
         <Toolbar disableGutters>
           <Container>
-            <Typography variant="h6" component="div">
-              User Management App
-            </Typography>
+            <Grid container justifyContent="space-between" alignItems="center">
+              <Typography variant="h6" component="div">
+                User Management App
+              </Typography>
+              <ConnectionStatus />
+            </Grid>
           </Container>
         </Toolbar>
       </AppBar>

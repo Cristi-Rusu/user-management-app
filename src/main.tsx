@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 
+import { UsersConnectionProvider } from "./UsersConnectionContext.tsx";
 import App from "./App.tsx";
 import { theme } from "./theme.ts";
 import "./index.css";
@@ -10,7 +11,9 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
+      <UsersConnectionProvider>
+        <App />
+      </UsersConnectionProvider>
     </ThemeProvider>
   </StrictMode>,
 );

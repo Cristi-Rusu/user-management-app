@@ -9,13 +9,6 @@ const theme = createTheme({
   palette: {
     mode: "dark",
   },
-  components: {
-    MuiContainer: {
-      defaultProps: {
-        fixed: true,
-      },
-    },
-  },
 });
 
 export { theme };

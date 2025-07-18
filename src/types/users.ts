@@ -9,6 +9,7 @@ export type UserDTO = {
 
 export type User = UserDTO & {
   createdAt?: string;
+  id: string;
 };
 
 export const userToDTO = (user: User): UserDTO => {
@@ -23,9 +24,12 @@ export const userToDTO = (user: User): UserDTO => {
 
 export const userFromDTO = (
   userDTO: UserDTO,
-  { createdAt }: { createdAt?: string } = {},
+  { createdAt, idSuffix }: { createdAt?: string; idSuffix: string | number },
 ): User => {
-  const user: User = { ...userDTO };
+  const user: User = {
+    id: `${userDTO.email}-${idSuffix}`,
+    ...userDTO,
+  };
   if (createdAt) {
     user.createdAt = createdAt;
   }

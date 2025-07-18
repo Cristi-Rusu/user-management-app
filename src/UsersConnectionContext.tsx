@@ -52,8 +52,9 @@ const UsersConnectionProvider = ({
 
   const onUserAdded = useCallback((userDTO: UserDTO) => {
     startTransition(() => {
+      const createdAt = new Date().toISOString();
       setUsers((prev) => [
-        userFromDTO(userDTO, { createdAt: new Date().toISOString() }),
+        userFromDTO(userDTO, { createdAt, idSuffix: createdAt }),
         ...prev,
       ]);
     });
@@ -62,9 +63,7 @@ const UsersConnectionProvider = ({
   const onUsersSync = useCallback((usersDTO: UserDTO[]) => {
     startTransition(() => {
       setUsers(
-        usersDTO.map((userDTO) =>
-          userFromDTO(userDTO, { createdAt: new Date().toISOString() }),
-        ),
+        usersDTO.map((userDTO, i) => userFromDTO(userDTO, { idSuffix: i })),
       );
     });
   }, []);

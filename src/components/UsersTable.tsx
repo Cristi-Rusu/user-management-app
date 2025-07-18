@@ -8,8 +8,7 @@ import { useUsersConnection } from "../hooks/useUsersConnection";
 import type { User } from "../types/users";
 import { Avatar, Box, Typography } from "@mui/material";
 
-const getRowId: GridRowIdGetter<User> = (user) =>
-  `${user.email}-${user.createdAt}`;
+const getRowId: GridRowIdGetter<User> = (user) => user.id;
 
 const columns: GridColDef<User>[] = [
   { field: "email", headerName: "Email", flex: 1, minWidth: 250 },
@@ -48,6 +47,7 @@ const columns: GridColDef<User>[] = [
     flex: 1,
     minWidth: 200,
     valueFormatter: (date: string | undefined) => {
+      if (!date) return "";
       return dayjs().to(date);
     },
   },

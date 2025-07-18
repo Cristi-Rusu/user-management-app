@@ -8,6 +8,9 @@ import {
 } from "@mui/material";
 import { ConnectionStatusUI } from "./components/ConnectionStatusUI";
 import { UsersTable } from "./components/UsersTable";
+import { AddUser } from "./components/AddUser";
+
+// TODO: move styles in separate file
 
 function App() {
   return (
@@ -29,8 +32,16 @@ function App() {
         </Toolbar>
       </AppBar>
       <Container
-        sx={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          minHeight: 0,
+          paddingTop: 1,
+          paddingBottom: 2,
+        }}
       >
+        <AddUser />
         <UsersTable />
       </Container>
     </Box>

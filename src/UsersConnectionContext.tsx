@@ -1,5 +1,6 @@
 import {
   createContext,
+  startTransition,
   useCallback,
   useEffect,
   useMemo,
@@ -7,7 +8,7 @@ import {
   type ReactNode,
 } from "react";
 
-import { userFromDTO, userToDTO, type User, type UserDTO } from "./types/users";
+import { userFromDTO, type User, type UserDTO } from "./types/users";
 import { socket } from "./socket";
 import type { ConnectionStatus } from "./types/socket";
 import { noop } from "./utils";
@@ -50,18 +51,22 @@ const UsersConnectionProvider = ({
   }, []);
 
   const onUserAdded = useCallback((userDTO: UserDTO) => {
-    setUsers((prev) => [
-      userFromDTO(userDTO, { createdAt: new Date().toISOString() }),
-      ...prev,
-    ]);
+    startTransition(() => {
+      setUsers((prev) => [
+        userFromDTO(userDTO, { createdAt: new Date().toISOString() }),
+        ...prev,
+      ]);
+    });
   }, []);
 
   const onUsersSync = useCallback((usersDTO: UserDTO[]) => {
-    setUsers(
-      usersDTO.map((userDTO) =>
-        userFromDTO(userDTO, { createdAt: new Date().toISOString() }),
-      ),
-    );
+    startTransition(() => {
+      setUsers(
+        usersDTO.map((userDTO) =>
+          userFromDTO(userDTO, { createdAt: new Date().toISOString() }),
+        ),
+      );
+    });
   }, []);
 
   // TODO: remove temporary any listener
@@ -95,8 +100,8 @@ const UsersConnectionProvider = ({
     onUsersSync,
   ]);
 
-  const addUser = useCallback((user: User) => {
-    socket.emit("user:add", userToDTO(user));
+  const addUser = useCallback((userDTO: UserDTO) => {
+    socket.emit("user:add", userDTO);
   }, []);
 
   const contextValue = useMemo<UsersConnectionContextType>(

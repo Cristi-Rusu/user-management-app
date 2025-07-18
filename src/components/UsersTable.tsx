@@ -1,8 +1,15 @@
 import dayjs from "dayjs";
-import { DataGrid, type GridColDef } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  type GridColDef,
+  type GridRowIdGetter,
+} from "@mui/x-data-grid";
 import { useUsersConnection } from "../hooks/useUsersConnection";
 import type { User } from "../types/users";
 import { Avatar, Box, Typography } from "@mui/material";
+
+const getRowId: GridRowIdGetter<User> = (user) =>
+  `${user.email}-${user.createdAt}`;
 
 const columns: GridColDef<User>[] = [
   { field: "email", headerName: "Email", flex: 1, minWidth: 250 },
@@ -49,13 +56,7 @@ const columns: GridColDef<User>[] = [
 function UsersTable() {
   const { users } = useUsersConnection();
 
-  return (
-    <DataGrid<User>
-      columns={columns}
-      rows={users}
-      getRowId={(user) => user.email}
-    />
-  );
+  return <DataGrid<User> columns={columns} rows={users} getRowId={getRowId} />;
 }
 
 export { UsersTable };

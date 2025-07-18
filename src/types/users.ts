@@ -4,7 +4,7 @@ export type UserDTO = {
   fullName: string;
   email: string;
   role: UserRole;
-  department: string;
+  department?: string;
 };
 
 export type User = UserDTO & {

@@ -1,2 +1,2 @@
 export const USERS_SOCKET_URL =
-  "http://fabacus-interview-task-be-testing.eu-west-1.elasticbeanstalk.com/socket.io/?EIO=4&transport=websocket";
+  "http://fabacus-interview-task-be-testing.eu-west-1.elasticbeanstalk.com/";

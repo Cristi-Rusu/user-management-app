@@ -6,7 +6,7 @@ import {
   Container,
   Grid,
 } from "@mui/material";
-import { ConnectionStatus } from "./components/ConnectionStatus";
+import { ConnectionStatusUI } from "./components/ConnectionStatusUI";
 import { UsersTable } from "./components/UsersTable";
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
               <Typography variant="h6" component="div">
                 User Management App
               </Typography>
-              <ConnectionStatus />
+              <ConnectionStatusUI />
             </Grid>
           </Container>
         </Toolbar>

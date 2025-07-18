@@ -25,7 +25,7 @@ export const userFromDTO = (
   userDTO: UserDTO,
   { createdAt }: { createdAt?: string } = {},
 ): User => {
-  const user: User = userDTO;
+  const user: User = { ...userDTO };
   if (createdAt) {
     user.createdAt = createdAt;
   }

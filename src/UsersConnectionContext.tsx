@@ -7,18 +7,21 @@ import {
   type ReactNode,
 } from "react";
 
-import { userFromDTO, type User, type UserDTO } from "./types/users";
+import { userFromDTO, userToDTO, type User, type UserDTO } from "./types/users";
 import { socket } from "./socket";
 import type { ConnectionStatus } from "./types/socket";
+import { noop } from "./utils";
 
 type UsersConnectionContextType = {
   connectionStatus: ConnectionStatus;
   users: User[];
+  addUser: (user: User) => void;
 };
 
 const UsersConnectionContext = createContext<UsersConnectionContextType>({
   connectionStatus: "connecting",
   users: [],
+  addUser: noop,
 });
 
 type UsersConnectionProviderProps = {
@@ -35,6 +38,7 @@ const UsersConnectionProvider = ({
 
   const onConnect = useCallback(() => {
     setConnectionStatus("connected");
+    socket.emit("user:request-sync");
   }, []);
 
   const onDisconnect = useCallback(() => {
@@ -52,6 +56,14 @@ const UsersConnectionProvider = ({
     ]);
   }, []);
 
+  const onUsersSync = useCallback((usersDTO: UserDTO[]) => {
+    setUsers(
+      usersDTO.map((userDTO) =>
+        userFromDTO(userDTO, { createdAt: new Date().toISOString() }),
+      ),
+    );
+  }, []);
+
   // TODO: remove temporary any listener
   type OnAnyEventListener = Parameters<typeof socket.onAny>[0];
   const onAnyEvent = useCallback<OnAnyEventListener>((event, ...args) => {
@@ -63,6 +75,7 @@ const UsersConnectionProvider = ({
     socket.on("disconnect", onDisconnect);
     socket.io.on("reconnect_attempt", onReconnectAttempt);
     socket.on("user:added", onUserAdded);
+    socket.on("users:sync", onUsersSync);
     socket.onAny(onAnyEvent);
 
     return () => {
@@ -70,16 +83,29 @@ const UsersConnectionProvider = ({
       socket.off("disconnect", onDisconnect);
       socket.io.off("reconnect_attempt", onReconnectAttempt);
       socket.off("user:added", onUserAdded);
+      socket.off("users:sync", onUsersSync);
       socket.offAny(onAnyEvent);
     };
-  }, [onConnect, onDisconnect, onAnyEvent, onReconnectAttempt, onUserAdded]);
+  }, [
+    onConnect,
+    onDisconnect,
+    onAnyEvent,
+    onReconnectAttempt,
+    onUserAdded,
+    onUsersSync,
+  ]);
+
+  const addUser = useCallback((user: User) => {
+    socket.emit("user:add", userToDTO(user));
+  }, []);
 
   const contextValue = useMemo<UsersConnectionContextType>(
     () => ({
       connectionStatus,
       users,
+      addUser,
     }),
-    [connectionStatus, users],
+    [connectionStatus, users, addUser],
   );
   return (
     <UsersConnectionContext value={contextValue}>

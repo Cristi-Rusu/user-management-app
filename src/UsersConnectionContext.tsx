@@ -3,13 +3,11 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
   type ReactNode,
 } from "react";
 
-import type { User } from "./types/users";
-import { fakeUsers } from "./mocks/fakeUsers";
+import { userFromDTO, type User, type UserDTO } from "./types/users";
 import { socket } from "./socket";
 import type { ConnectionStatus } from "./types/socket";
 
@@ -47,6 +45,13 @@ const UsersConnectionProvider = ({
     setConnectionStatus("reconnecting");
   }, []);
 
+  const onUserAdded = useCallback((userDTO: UserDTO) => {
+    setUsers((prev) => [
+      userFromDTO(userDTO, { createdAt: new Date().toISOString() }),
+      ...prev,
+    ]);
+  }, []);
+
   // TODO: remove temporary any listener
   type OnAnyEventListener = Parameters<typeof socket.onAny>[0];
   const onAnyEvent = useCallback<OnAnyEventListener>((event, ...args) => {
@@ -57,25 +62,17 @@ const UsersConnectionProvider = ({
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
     socket.io.on("reconnect_attempt", onReconnectAttempt);
+    socket.on("user:added", onUserAdded);
     socket.onAny(onAnyEvent);
 
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
       socket.io.off("reconnect_attempt", onReconnectAttempt);
+      socket.off("user:added", onUserAdded);
       socket.offAny(onAnyEvent);
     };
-  }, [onConnect, onDisconnect, onAnyEvent, onReconnectAttempt]);
-
-  // isInitialized is only used to mock users until connection issue is solved
-  const isInitialized = useRef(false);
-  useEffect(() => {
-    // mock some data until WebSocket connection issue is solved
-    if (!isInitialized.current) {
-      isInitialized.current = true;
-      setUsers(fakeUsers);
-    }
-  }, []);
+  }, [onConnect, onDisconnect, onAnyEvent, onReconnectAttempt, onUserAdded]);
 
   const contextValue = useMemo<UsersConnectionContextType>(
     () => ({

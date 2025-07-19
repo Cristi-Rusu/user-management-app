@@ -12,7 +12,11 @@ import {
   TextField,
 } from "@mui/material";
 import type { UserRole } from "../types/users";
-import { EMAIL_REGEXP } from "../utils";
+import {
+  EMAIL_REGEXP,
+  AT_LEAST_2_CHARS_REGEXP,
+  ONLY_LETTERS_AND_SPACES_REGEXP,
+} from "../utils";
 import { useUsersConnection } from "../hooks/useUsersConnection";
 
 const roleText: Record<UserRole, string> = {
@@ -41,7 +45,7 @@ export function AddUser() {
       department: "",
     },
   });
-
+  console.log();
   function handleOpen() {
     setOpen(true);
   }
@@ -51,7 +55,12 @@ export function AddUser() {
   }
 
   const onSubmit: SubmitHandler<AddUserInputs> = (data) => {
-    addUser(data);
+    addUser({
+      fullName: data.fullName.trim(),
+      email: data.email.trim(),
+      role: data.role,
+      department: data.department?.trim(),
+    });
     handleClose();
     reset();
   };
@@ -73,13 +82,13 @@ export function AddUser() {
               name="fullName"
               rules={{
                 required: "Full name is required.",
-                minLength: {
-                  value: 2,
-                  message: "Full name should have at least 2 characters.",
-                },
-                pattern: {
-                  value: /^[a-zA-Z\s]*$/,
-                  message: "Only letters and spaces are allowed.",
+                validate: {
+                  atLeast2Chars: (value) =>
+                    AT_LEAST_2_CHARS_REGEXP.test(value) ||
+                    "Full name should have at least 2 characters.",
+                  onlyLettersAndSpaces: (value) =>
+                    ONLY_LETTERS_AND_SPACES_REGEXP.test(value) ||
+                    "Only letters and spaces are allowed.",
                 },
               }}
               render={({ field, fieldState: { error } }) => (

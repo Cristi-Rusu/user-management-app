@@ -16,7 +16,7 @@ import { noop } from "./utils";
 type UsersConnectionContextType = {
   connectionStatus: ConnectionStatus;
   users: User[];
-  addUser: (user: User) => void;
+  addUser: (user: UserDTO) => void;
 };
 
 const UsersConnectionContext = createContext<UsersConnectionContextType>({
@@ -99,9 +99,12 @@ const UsersConnectionProvider = ({
     onUsersSync,
   ]);
 
-  const addUser = useCallback((userDTO: UserDTO) => {
-    socket.emit("user:add", userDTO);
-  }, []);
+  const addUser = useCallback<UsersConnectionContextType["addUser"]>(
+    (userDTO) => {
+      socket.emit("user:add", userDTO);
+    },
+    [],
+  );
 
   const contextValue = useMemo<UsersConnectionContextType>(
     () => ({

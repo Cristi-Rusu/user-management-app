@@ -4,36 +4,33 @@ import {
   type GridColDef,
   type GridRowIdGetter,
 } from "@mui/x-data-grid";
-import { useUsersConnection } from "../hooks/useUsersConnection";
-import type { User } from "../types/users";
-import { Avatar, Box, Typography } from "@mui/material";
+
+import { useUsersConnection } from "../../hooks/useUsersConnection";
+import type { User } from "../../types/users";
+import { DeleteCell } from "./DeleteCell";
+import { AvatarCell } from "./AvatarCell";
 
 const getRowId: GridRowIdGetter<User> = (user) => user.id;
 
 const columns: GridColDef<User>[] = [
+  {
+    field: "actions",
+    headerName: "Actions",
+    renderCell: (params) => <DeleteCell user={params.row} />,
+    width: 70,
+    minWidth: 70,
+    filterable: false,
+    sortable: false,
+    hideable: false,
+    disableColumnMenu: true,
+  },
   { field: "email", headerName: "Email", flex: 1, minWidth: 250 },
   {
     field: "avatar",
     headerName: "Avatar",
-    renderCell: (params) => {
-      const { fullName } = params.row;
-      const initials = `${fullName.split(" ")[0][0]}${fullName.split(" ")[1]?.[0] ?? ""}`;
-      return (
-        <Box
-          sx={{
-            height: "100%",
-            alignItems: "center",
-            justifyContent: "end",
-            display: "flex",
-          }}
-        >
-          <Avatar sx={{ width: 32, height: 32 }}>
-            <Typography variant="body2">{initials}</Typography>
-          </Avatar>
-        </Box>
-      );
-    },
+    renderCell: (params) => <AvatarCell user={params.row} />,
     width: 85,
+    minWidth: 85,
     filterable: false,
     sortable: false,
     headerAlign: "right",
@@ -56,7 +53,15 @@ const columns: GridColDef<User>[] = [
 function UsersTable() {
   const { users } = useUsersConnection();
 
-  return <DataGrid<User> columns={columns} rows={users} getRowId={getRowId} />;
+  return (
+    <DataGrid<User>
+      columns={columns}
+      rows={users}
+      getRowId={getRowId}
+      disableRowSelectionOnClick
+      disableMultipleRowSelection
+    />
+  );
 }
 
 export { UsersTable };

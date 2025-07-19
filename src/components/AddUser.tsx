@@ -70,10 +70,16 @@ export function AddUser() {
       <Button variant="contained" onClick={handleOpen}>
         Add User
       </Button>
-      <Dialog open={open} onClose={handleClose} fullWidth>
-        <DialogTitle>Add User</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        aria-labelledby="add-user-dialog-title"
+        aria-describedby="add-user-dialog-description"
+      >
+        <DialogTitle id="add-user-dialog-title">Add User</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText id="add-user-dialog-description">
             Fill in all the required fields (*).
           </DialogContentText>
           <form onSubmit={handleSubmit(onSubmit)}>

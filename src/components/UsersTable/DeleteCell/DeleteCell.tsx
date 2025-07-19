@@ -12,7 +12,7 @@ import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 
 import { useUsersConnection } from "../../../hooks/useUsersConnection";
 import type { User } from "../../../types/users";
-import { CellContainer } from "./styles";
+import * as S from "./styles";
 
 const DeleteCell = ({ user }: { user: User }) => {
   const [open, setOpen] = useState(false);
@@ -29,7 +29,7 @@ const DeleteCell = ({ user }: { user: User }) => {
   const titleId = `${user.id}-delete-dialog-title`;
   const descriptionId = `${user.id}-delete-dialog-description`;
   return (
-    <CellContainer>
+    <S.CellContainer>
       <IconButton
         color="error"
         size="small"
@@ -62,7 +62,7 @@ const DeleteCell = ({ user }: { user: User }) => {
           </Button>
         </DialogActions>
       </Dialog>
-    </CellContainer>
+    </S.CellContainer>
   );
 };
 

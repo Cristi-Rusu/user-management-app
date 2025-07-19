@@ -1,20 +1,12 @@
-import {
-  Box,
-  AppBar,
-  Toolbar,
-  Typography,
-  Container,
-  Grid,
-} from "@mui/material";
+import { AppBar, Toolbar, Typography, Container, Grid } from "@mui/material";
 import { ConnectionStatusUI } from "./components/ConnectionStatusUI";
 import { UsersTable } from "./components/UsersTable";
 import { AddUser } from "./components/AddUser";
-
-// TODO: move styles in separate file
+import * as S from "./styles";
 
 function App() {
   return (
-    <Box display="flex" flexDirection="column" flex={1} minHeight={0}>
+    <S.AppContainer>
       <AppBar position="sticky">
         <Toolbar disableGutters>
           <Container>
@@ -31,20 +23,11 @@ function App() {
           </Container>
         </Toolbar>
       </AppBar>
-      <Container
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          minHeight: 0,
-          paddingTop: 1,
-          paddingBottom: 2,
-        }}
-      >
+      <S.MainContainer component="main">
         <AddUser />
         <UsersTable />
-      </Container>
-    </Box>
+      </S.MainContainer>
+    </S.AppContainer>
   );
 }
 

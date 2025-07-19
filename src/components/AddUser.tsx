@@ -65,6 +65,8 @@ export function AddUser() {
     reset();
   };
 
+  const addDialogTitleId = "add-user-dialog-title";
+  const addDialogDescriptionId = "add-user-dialog-description";
   return (
     <Box sx={{ mb: 1, textAlign: "end" }}>
       <Button variant="contained" onClick={handleOpen}>
@@ -74,12 +76,12 @@ export function AddUser() {
         open={open}
         onClose={handleClose}
         fullWidth
-        aria-labelledby="add-user-dialog-title"
-        aria-describedby="add-user-dialog-description"
+        aria-labelledby={addDialogTitleId}
+        aria-describedby={addDialogDescriptionId}
       >
-        <DialogTitle id="add-user-dialog-title">Add User</DialogTitle>
+        <DialogTitle id={addDialogTitleId}>Add User</DialogTitle>
         <DialogContent>
-          <DialogContentText id="add-user-dialog-description">
+          <DialogContentText id={addDialogDescriptionId}>
             Fill in all the required fields (*).
           </DialogContentText>
           <form onSubmit={handleSubmit(onSubmit)}>

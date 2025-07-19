@@ -60,6 +60,7 @@ function UsersTable() {
       getRowId={getRowId}
       disableRowSelectionOnClick
       disableMultipleRowSelection
+      showToolbar
     />
   );
 }

@@ -1,69 +1,36 @@
-# React + TypeScript + Vite
+# Real-Time User Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features
 
-Currently, two official plugins are available:
+- [x] Responsive Design
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### User Creation Form
 
-## Expanding the ESLint configuration
+- [x] Implement validation with appropriate user feedback (e.g., inline errors)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+#### Required Fields:
 
-```js
-export default tseslint.config([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
+- [x] Full Name: Minimum 2 characters, only letters and spaces allowed
+- [x] Email: Valid email format
+- [x] Role: Dropdown with Developer, Designer, Manger, Other
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+#### Optional Field:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+- [x] Department: Text input, max 50 characters
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Real-Time User List
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+- [x] Display all users in a real-time updating table.
+      Table includes:
+- [x] Full Name, Email, Role, Department
+- [x] 'Created X minutes ago' timestamp
+- [x] User avatars (initials)
+- [x] Table search, sort, filters, and column management
+- [x] Create and Delete actions (delete action works only on the client side because the server does not expose userId)
 
-export default tseslint.config([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+### Connection Management
+
+- [x] Show connection status (connected, disconnected, reconnecting)
+- [ ] Auto-reconnect with exponential backoff
+- [ ] Queue messages during disconnection # TODO: check this
+- [x] Resync user list on reconnect

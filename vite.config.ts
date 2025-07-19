@@ -6,6 +6,9 @@ import checker from "vite-plugin-checker";
 export default defineConfig({
   plugins: [
     react(),
-    checker({ typescript: { tsconfigPath: "./tsconfig.app.json" } }),
+    checker({
+      overlay: false,
+      typescript: { tsconfigPath: "./tsconfig.app.json" },
+    }),
   ],
 });

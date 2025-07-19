@@ -45,7 +45,7 @@ export function AddUser() {
       department: "",
     },
   });
-  console.log();
+
   function handleOpen() {
     setOpen(true);
   }

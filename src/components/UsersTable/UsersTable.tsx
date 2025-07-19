@@ -61,6 +61,16 @@ function UsersTable() {
       disableRowSelectionOnClick
       disableMultipleRowSelection
       showToolbar
+      slotProps={{
+        toolbar: {
+          csvOptions: {
+            disableToolbarButton: true,
+          },
+          printOptions: {
+            disableToolbarButton: true,
+          },
+        },
+      }}
     />
   );
 }

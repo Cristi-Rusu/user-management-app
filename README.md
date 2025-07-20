@@ -1,5 +1,27 @@
 # Real-Time User Management App
 
+This project was created with Vite and Yarn.
+
+**Setup instructions:**
+
+Installation:
+
+```zsh
+yarn
+```
+
+Run in development:
+
+```zsh
+yarn dev
+```
+
+Build the project:
+
+```zsh
+yarn build
+```
+
 ## Features
 
 - [x] Responsive Design

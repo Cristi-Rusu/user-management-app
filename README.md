@@ -31,6 +31,6 @@
 ### Connection Management
 
 - [x] Show connection status (connected, disconnected, reconnecting)
-- [ ] Auto-reconnect with exponential backoff
-- [x] Queue messages during disconnection
+- [x] Auto-reconnect with exponential backoff # Socket.IO manages this by default
+- [x] Queue messages during disconnection # Socket.IO manages this by default
 - [x] Resync user list on reconnect

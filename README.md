@@ -16,10 +16,11 @@ Run in development:
 yarn dev
 ```
 
-Build the project:
+Preview production:
 
 ```zsh
 yarn build
+yarn preview
 ```
 
 ## Features

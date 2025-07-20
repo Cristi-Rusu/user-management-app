@@ -32,5 +32,5 @@
 
 - [x] Show connection status (connected, disconnected, reconnecting)
 - [ ] Auto-reconnect with exponential backoff
-- [ ] Queue messages during disconnection # TODO: check this
+- [x] Queue messages during disconnection
 - [x] Resync user list on reconnect
